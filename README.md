@@ -270,7 +270,7 @@ Then the same with MySQL:
 **Creation of the pod and execution of the containers:**
 
 ```bash
-    podman pod create --name mypod -p 8080:80 -p 33060:3306
+    podman pod create --name mypod -p 8080:80 -p 3306:3306
     podman run --pod mypod -it --name mywordpress -d mywordpress
     podman run --pod mypod -it --privileged --name mymysql -d mymysql
 ```
