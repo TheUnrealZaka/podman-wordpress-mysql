@@ -60,16 +60,20 @@ RUN mkdir -p /var/www/html && \
 # Download and install WordPress
 RUN wget https://wordpress.org/latest.tar.gz -P /var/www/html/ && \
     tar -xvzf /var/www/html/latest.tar.gz -C /var/www/html/ && \
-    rm /var/www/html/latest.tar.gz
+    rm /var/www/html/latest.tar.gz && mv wordpress/* ./
 
 # Copy custom PHP configuration file
-COPY config.php /var/www/html/
+COPY config.php /var/www/html/wp-config.php
+
+# Copy WordPress configuration to 000-default.conf
+
+COPY wordpress.conf /etc/apache2/sites-avaliable/000-default.conf
 
 # Open port 80
 EXPOSE 80
 
 # Configure and start Apache and PHP-FPM, ensuring socket permissions
-CMD ["sh", "-c", "service php7.4-fpm start && a2enmod proxy_fcgi setenvif && a2enconf php7.4-fpm && service apache2 restart && /bin/bash"]
+CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
 ```
 
 We will create the config.php file, it is important to create it inside the WordPress folder:
@@ -177,6 +181,30 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /** Sets up WordPress vars and included files. */
 require_once ABSPATH . 'wp-settings.php';
+```
+
+Also we will create a config for Apache:
+
+```bash
+nano WordPress/wordpress.conf
+```
+
+And we copy the following content:
+
+```
+<VirtualHost *:80>
+    DocumentRoot /var/www/html
+    <Directory /var/www/html>
+        Options FollowSymLinks
+        AllowOverride Limit Options FileInfo
+        DirectoryIndex index.php
+        Require all granted
+    </Directory>
+    <Directory /var/www/html/wp-content>
+        Options FollowSymLinks
+        Require all granted
+    </Directory>
+</VirtualHost>
 ```
 
 We will do the same for MySQL
