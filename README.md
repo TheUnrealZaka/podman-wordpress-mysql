@@ -288,7 +288,7 @@ grep "temporary password" /var/log/mysql/error.log
 
 Once we have this password, we will enter MySQL using the following command:
 ```bash
-mysql -u root -p
+mysql -u root -p <password>
 ```
 
 Inside MySQL, we will execute the following commands:
