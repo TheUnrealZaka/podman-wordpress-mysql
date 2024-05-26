@@ -50,7 +50,7 @@ Inside we will add the following content:
 FROM ubuntu:latest
 
 # Install Apache, PHP and other necessary packages for WordPress
-RUN apt-get update && apt-get install apache2 ghostscript libapache2-mod-php mysql-server php php-bcmath php-curl php-imagick php-intl php-json php-mbstring php-mysql php-xml php-zip wget
+RUN apt-get update && apt-get install -y apache2 ghostscript libapache2-mod-php mysql-server php php-bcmath php-curl php-imagick php-intl php-json php-mbstring php-mysql php-xml php-zip wget
 
 # Prepare the directory for the PHP-FPM socket
 RUN mkdir -p /var/www/html && \
