@@ -54,8 +54,8 @@ RUN apt-get update && \
     apt-get install -y apache2 php libapache2-mod-php mysql-client php-mysql php-xml php-json php-gd php-mbstring php-fpm unzip wget
 
 # Prepare the directory for the PHP-FPM socket
-RUN mkdir -p /run/php && \
-    chown -R www-data:www-data /run/php
+RUN mkdir -p /var/www/html && \
+    chown -R www-data:www-data /var/www/html
 
 # Download and install WordPress
 RUN wget https://wordpress.org/latest.tar.gz -P /var/www/html/ && \
@@ -63,7 +63,7 @@ RUN wget https://wordpress.org/latest.tar.gz -P /var/www/html/ && \
     rm /var/www/html/latest.tar.gz
 
 # Copy custom PHP configuration file
-COPY config.php /var/www/html/wordpress/
+COPY config.php /var/www/html/
 
 # Open port 80
 EXPOSE 80
