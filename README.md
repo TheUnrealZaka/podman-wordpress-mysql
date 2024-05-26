@@ -1,4 +1,4 @@
-# Manual to install WordPress with MySQL using an Ubuntu image 
+# Manual to install WordPress with MySQL using a Fedora image 
 
 ## Index
 1. [Introduction](#1-Introduction)
