@@ -123,7 +123,7 @@ And we copy the following content:
 define( 'DB_NAME', 'wordpress' );
 
 /** Database username */
-define( 'DB_USER', 'root' );
+define( 'DB_USER', 'wordpress' );
 
 /** Database password */
 define( 'DB_PASSWORD', 'root' );
@@ -296,20 +296,16 @@ First, we will enter the MySQL container:
 podman exec -it mymysql /bin/bash
 ```
 
-Once inside, we will execute the following command to obtain the temporary password that MySQL uses:
-```bash
-grep "temporary password" /var/log/mysql/error.log 
-```
-
-Once we have this password, we will enter MySQL using the following command:
+Once inside, we will enter MySQL using the following command:
 ```bash
 mysql -u root -p
 ```
 
 Inside MySQL, we will execute the following commands:
 ```bash
-ALTER USER 'root'@'localhost' IDENTIFIED BY 'root';
 CREATE DATABASE wordpress;
+CREATE USER wordpress@localhost IDENTIFIED BY 'root';
+GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,ALTER ON wordpress.* TO wordpress@localhost;
 FLUSH PRIVILEGES;
 ```
 
