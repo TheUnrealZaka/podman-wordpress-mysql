@@ -49,9 +49,23 @@ Inside we will add the following content:
 ```Dockerfile
 FROM ubuntu:latest
 
-# Install Apache, PHP, PHP-FPM and other necessary packages for WordPress
+# Install Apache, PHP and other necessary packages for WordPress
 RUN apt-get update && \
-    apt-get install -y apache2 php libapache2-mod-php mysql-client php-mysql php-xml php-json php-gd php-mbstring php-fpm unzip wget
+    sudo apt install apache2 \
+                 ghostscript \
+                 libapache2-mod-php \
+                 mysql-server \
+                 php \
+                 php-bcmath \
+                 php-curl \
+                 php-imagick \
+                 php-intl \
+                 php-json \
+                 php-mbstring \
+                 php-mysql \
+                 php-xml \
+                 php-zip \
+                 wget
 
 # Prepare the directory for the PHP-FPM socket
 RUN mkdir -p /var/www/html && \
@@ -60,7 +74,7 @@ RUN mkdir -p /var/www/html && \
 # Download and install WordPress
 RUN wget https://wordpress.org/latest.tar.gz -P /var/www/html/ && \
     tar -xvzf /var/www/html/latest.tar.gz -C /var/www/html/ && \
-    rm /var/www/html/latest.tar.gz && mv wordpress/* ./
+    rm /var/www/html/latest.tar.gz && mv /var/www/html/wordpress/* /var/www/html/
 
 # Copy custom PHP configuration file
 COPY config.php /var/www/html/wp-config.php
