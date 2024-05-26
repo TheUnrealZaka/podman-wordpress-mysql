@@ -281,14 +281,9 @@ First, we will enter the MySQL container:
 podman exec -it mymysql /bin/bash
 ```
 
-Once inside, we will execute the following command to obtain the temporary password that MySQL uses:
+Once inside, we will enter MySQL using the following command:
 ```bash
-grep "temporary password" /var/log/mysql/error.log 
-```
-
-Once we have this password, we will enter MySQL using the following command:
-```bash
-mysql -u root -p <password>
+mysql -u root
 ```
 
 Inside MySQL, we will execute the following commands:
