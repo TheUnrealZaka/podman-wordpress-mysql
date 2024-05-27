@@ -57,8 +57,8 @@ RUN mkdir -p /run/php-fpm && chown -R apache:apache /run/php-fpm
 
 # Download and install WordPress
 RUN wget https://wordpress.org/latest.tar.gz -P /var/www/html/ && \
-    tar -xvzf /var/www/html/latest.tar.gz -C /var/www/html/ && \
-    rm /var/www/html/latest.tar.gz && mv /var/www/html/wordpress/* /var/www/html/ && rm /var/www/html/index.html 
+    tar -xvzf /var/www/html/latest.tar.gz -C /var/www/html/ && \
+    rm /var/www/html/latest.tar.gz && mv /var/www/html/wordpress/* /var/www/html/
 
 # Copy custom PHP configuration file
 COPY wp-config.php /var/www/html/ 
@@ -133,14 +133,14 @@ define( 'DB_COLLATE', '' );
 * @since 2.6.0
 */ 
 
-define( 'AUTH_KEY',         '' );
-define( 'SECURE_AUTH_KEY',  '' );
-define( 'LOGGED_IN_KEY',    '' );
-define( 'NONCE_KEY',        '' );
-define( 'AUTH_SALT',        '' );
+define( 'AUTH_KEY',         '' );
+define( 'SECURE_AUTH_KEY',  '' );
+define( 'LOGGED_IN_KEY',    '' );
+define( 'NONCE_KEY',        '' );
+define( 'AUTH_SALT',        '' );
 define( 'SECURE_AUTH_SALT', '' );
-define( 'LOGGED_IN_SALT',   '' );
-define( 'NONCE_SALT',       '' ); 
+define( 'LOGGED_IN_SALT',   '' );
+define( 'NONCE_SALT',       '' ); 
 
 /**#@-*/ 
 
@@ -222,11 +222,11 @@ FROM fedora:latest
 
 # Install MySQL
 RUN dnf update && \
-    dnf install -y mysql-server 
+    dnf install -y mysql-server 
 
 # Prepare the data directory
 RUN mkdir -p /var/lib/mysql/ && \
-    chown mysql:mysql /var/lib/mysql/ 
+    chown mysql:mysql /var/lib/mysql/ 
 
 # Copy the initialization script
 COPY init-mysql.sh /usr/local/bin/
@@ -249,9 +249,9 @@ And we copy the following content
 #!/bin/bash
 # Initialize the database if the directory is empty
 if [ -z "$(ls -A /var/lib/mysql)" ]; then
-    echo "Initializing the database..."
-    mysqld --initialize --user=mysql --datadir=/var/lib/mysql/
-    echo "Database initialized."
+    echo "Initializing the database..."
+    mysqld --initialize --user=mysql --datadir=/var/lib/mysql/
+    echo "Database initialized."
 fi 
 
 # Start the MySQL server
@@ -286,10 +286,15 @@ First, we will enter the MySQL container:
 podman exec -it mymysql /bin/bash
 ``` 
 
-Once inside, we will enter MySQL using the following command:
+Once inside, we will execute the following command to obtain the temporary password that MySQL uses:
 ```bash
-mysql -u root
-``` 
+grep "temporary password" /var/log/mysql/error.log 
+```
+
+Once we have this password, we will enter MySQL using the following command:
+```bash
+mysql -u root -p
+```
 
 Inside MySQL, we will execute the following commands:
 ```bash
@@ -298,6 +303,10 @@ ALTER USER 'root'@'localhost' IDENTIFIED BY 'root';
 CREATE DATABASE wordpress; 
 
 FLUSH PRIVILEGES;
+
+exit
+
+exit
 ``` 
 
 After configuring MySQL, we will exit the container and execute the following command:
