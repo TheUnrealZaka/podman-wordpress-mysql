@@ -325,6 +325,6 @@ podman commit mywordpress myfinalwordpress
 ```
 Now we will enter the browser and enter this URL: http://localhost:8080 to enter WordPress, where we must complete the installation. 
 
-For any problems you can have with the steps, you can contact me on [Discord](https://discord.com/users/1114850055128629350) or write an email to: contact@theunrealzaka.me 
+For any problems you can have with the steps, you can contact me on [Discord](https://discord.com/users/1268335382118924406) or write an email to: contact@theunrealzaka.me 
 
 Made with ❤ by [TheUnrealZaka](https://www.theunrealzaka.me)
